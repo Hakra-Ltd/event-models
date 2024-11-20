@@ -1,0 +1,81 @@
+[tool.poetry]
+name = "event-models"
+version = "0.1.0"
+description = ""
+authors = ["Jiri Sevcik <jiri@hakra.io>"]
+readme = "README.md"
+packages = [
+    { include = "event_models" },
+]
+include = ["CHANGELOG.md", "event_models/py.typed"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.9.2"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.13.0"
+ruff = "^0.7.3"
+black = "^24.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+mypy_path = "event_models"
+strict = true
+plugins = ["pydantic.mypy"]
+
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "F", # flake8 / pyflakes
+    "E", # flake8 / pycodestyle, errors
+    "W", # flake8 / pycodestyle, warning
+    "C90", # McCabe
+    "I", # isort
+    "N", # pep8 naming, might already by checked by PyLint
+    "D", # pydocstyle
+    "UP", # pyupgrade
+    "S", # bandit
+    "A", # builtins
+    "RUF", # ruff specific
+]
+extend-ignore = [
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D104", # Missing docstring in public package
+    "D105", # Missing docstring in magic method
+    "D106", # Missing docstring in public nested class
+    "D107", # Missing docstring in `__init__`
+]
+
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds 5.
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pep8-naming]
+# Allow Pydantic's `@validator` decorator to trigger class method treatment.
+classmethod-decorators = ["classmethod", "pydantic.field_validator", "pydantic.model_validator"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101", # Use of assert
+    "D102", # missing-documentation-for-public-method
+]
