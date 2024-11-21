@@ -8,12 +8,12 @@ from event_models.trigger.model import JobScrapMessage
 
 
 def get_success_job_message(
-        event_id: str,
-        job_id: UUID4,
-        scrap_type: ScrapType,
-        started: datetime.datetime,
-        finished: datetime.datetime,
-        scrap_notes: dict[str, Any] | None = None,
+    event_id: str,
+    job_id: UUID4,
+    scrap_type: ScrapType,
+    started: datetime.datetime,
+    finished: datetime.datetime,
+    scrap_notes: dict[str, Any] | None = None,
 ) -> JobScrapMessage:
     return JobScrapMessage(
         event_id=event_id,
@@ -27,13 +27,13 @@ def get_success_job_message(
 
 
 def get_error_job_message(
-        event_id: str,
-        job_id: UUID4,
-        scrap_type: ScrapType,
-        started: datetime.datetime,
-        finished: datetime.datetime,
-        scrap_notes: dict[str, Any],
-        failure_reason: FailureReason,
+    event_id: str,
+    job_id: UUID4,
+    scrap_type: ScrapType,
+    started: datetime.datetime,
+    finished: datetime.datetime,
+    scrap_notes: dict[str, Any],
+    failure_reason: FailureReason,
 ) -> JobScrapMessage:
     return JobScrapMessage(
         event_id=event_id,
