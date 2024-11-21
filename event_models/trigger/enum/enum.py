@@ -3,10 +3,10 @@ from enum import StrEnum
 
 # TODO unify with EventSource from event_models.event.event
 class ScrapType(StrEnum):
-    TICKETMASTER_MAP = "ticketmaster_map"
-    TICKETMASTER_FACET = "ticketmaster_facets"
+    TICKETMASTER_MAP = "ticketmaster-map"
+    TICKETMASTER_FACET = "ticketmaster-facet"
     VIVIDSEATS = "vividseats"
-    EVENUE = "evenue"
+    EVENUE_SEAT = "evenue-seat"
 
 
 class FailureReason(StrEnum):
