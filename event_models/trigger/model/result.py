@@ -21,12 +21,14 @@ class EventResultHeader(BaseModel):
 
         return values
 
-    @staticmethod
-    def message_header_to_result_dict(message_header: MessageHeader, error_reason: str | None = None) -> dict[str, Any]:
-        return {
-            "message_id": message_header.event_message_id,
-            "scrap_type": ScrapType(message_header.event_source),
-            "data_process_success": error_reason is None,
-            "finished": datetime.datetime.now(),
-            "error_reason": error_reason,
-        }
+
+
+    @classmethod
+    def from_message_header(cls, message_header: MessageHeader, error_reason: str | None = None) -> "EventResultHeader":
+        return cls(
+            message_id=message_header.event_message_id,
+            scrap_type=ScrapType(message_header.event_source),
+            data_process_success=error_reason is None,
+            finished=datetime.datetime.now(),
+            error_reason=error_reason,
+        )
