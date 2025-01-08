@@ -7,6 +7,8 @@ class ScrapType(StrEnum):
     TICKETMASTER_FACET = "ticketmaster-facet"
     VIVIDSEATS = "vividseats"
     EVENUE_SEAT = "evenue-seat"
+    EVENUE_SECTION = "evenue-section"
+    EVENUE_PRICES = "evenue-prices"
 
 
 class FailureReason(StrEnum):
