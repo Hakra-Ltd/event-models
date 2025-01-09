@@ -1,14 +1,14 @@
 import datetime
 from typing import Any
 
-from pydantic import UUID4, BaseModel, model_validator
+from pydantic import BaseModel, model_validator
 
 from event_models.event.event import MessageHeader
 from event_models.trigger.enum import ScrapType
 
 
 class EventResultHeader(BaseModel):
-    message_id: UUID4
+    message_id: str
     event_id: str
     scrap_type: ScrapType
     data_process_success: bool
