@@ -17,3 +17,5 @@ class FailureReason(StrEnum):
     SCRAP_SERVICE_OVERLOAD = "scrap_service_overload"
     DATA_ISSUE = "data_issue"
     PROCESS_SERVICE_OVERLOAD = "process_service_overload"
+    NO_SECTIONS = "no_sections"
+    NOT_ON_SALE = "not_on_sale"
