@@ -19,3 +19,6 @@ class FailureReason(StrEnum):
     PROCESS_SERVICE_OVERLOAD = "process_service_overload"
     NO_SECTIONS = "no_sections"
     NOT_ON_SALE = "not_on_sale"
+    DATA_PROCESS_ERROR = "data_process_error"
+    TIMEOUT = "timeout"
+    TRIGGER_PROCESS_ERROR = "trigger_process_error"
