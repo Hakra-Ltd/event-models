@@ -4,7 +4,7 @@ from typing import Any, Optional
 from pydantic import BaseModel, model_validator
 
 from event_models.event.event import MessageHeader
-from event_models.trigger.enum import ScrapType
+from event_models.trigger.enum import FailureReason, ScrapType
 
 
 class EventResultHeader(BaseModel):
@@ -15,7 +15,7 @@ class EventResultHeader(BaseModel):
     started: datetime.datetime
     finished: datetime.datetime
     data_process_notes: Optional[dict[str, Any]] | None = None
-    error_reason: str | None = None
+    error_reason: FailureReason | None = None
 
     @model_validator(mode="before")
     def check_failure(cls: Any, values: Any) -> Any:
@@ -29,7 +29,7 @@ class EventResultHeader(BaseModel):
         cls,
         message_header: MessageHeader,
         started: datetime.datetime,
-        error_reason: str | None = None,
+        error_reason: FailureReason | None = None,
         data_process_notes: dict[str, Any] | None = None,
     ) -> "EventResultHeader":
         return cls(
