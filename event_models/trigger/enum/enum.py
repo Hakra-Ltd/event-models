@@ -9,7 +9,7 @@ class ScrapType(StrEnum):
     EVENUE_SEAT = "evenue-seat"
     EVENUE_SECTION = "evenue-section"
     EVENUE_PRICES = "evenue-prices"
-
+    STUBHUB = "stubhub"
 
 class FailureReason(StrEnum):
     PROXY_ERROR = "proxy_error"

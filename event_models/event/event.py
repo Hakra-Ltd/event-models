@@ -11,6 +11,7 @@ class EventSource(enum.StrEnum):
     TICKETMASTER_FACET = "ticketmaster-facet"
     VIVIDSEATS = "vividseats"
     EVENUE_SEAT = "evenue-seat"
+    STUBHUB = "stubhub"
 
 
 class EventAction(enum.StrEnum):
