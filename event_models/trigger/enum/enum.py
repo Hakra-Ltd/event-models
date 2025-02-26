@@ -11,6 +11,7 @@ class ScrapType(StrEnum):
     EVENUE_PRICES = "evenue-prices"
     STUBHUB = "stubhub"
 
+
 class FailureReason(StrEnum):
     PROXY_ERROR = "proxy_error"
     NOT_FOUND = "not_found"
