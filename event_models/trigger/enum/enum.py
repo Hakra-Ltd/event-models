@@ -11,6 +11,7 @@ class ScrapType(StrEnum):
     EVENUE_PRICES = "evenue-prices"
     STUBHUB = "stubhub"
 
+
 class FailureReason(StrEnum):
     PROXY_ERROR = "proxy_error"
     NOT_FOUND = "not_found"
@@ -21,6 +22,7 @@ class FailureReason(StrEnum):
     NOT_ON_SALE = "not_on_sale"
     SOLD_OUT = "sold_out"
     DATA_PROCESS_ERROR = "data_process_error"
+    SEATS_FOUND_WITH_NO_MAP = "seats_found_with_no_map"
     DATA_STORAGE_ERROR = "data_storage_error"
     TIMEOUT = "timeout"
     TRIGGER_PROCESS_ERROR = "trigger_process_error"
