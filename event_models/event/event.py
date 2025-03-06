@@ -33,6 +33,7 @@ class MessageHeader(BaseModel):
     event_action: EventAction = Field(default=EventAction.STORE, alias="event-action")
     event_timestamp: datetime.datetime | None = Field(alias="event-timestamp", default=None)
     no_map: bool | None = Field(default=False, alias="no-map")
+    not_found: bool | None = Field(default=False, alias="not-found")
 
     @field_validator("event_timestamp", mode="after")
     def set_default_timezone(cls: Any, v: datetime.datetime) -> datetime.datetime:
