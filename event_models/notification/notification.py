@@ -19,6 +19,14 @@ class NotificationMessage(BaseModel):
     timestamp: datetime.datetime
     data: Any
 
+    def to_message(self) -> str:
+        return (
+            f"Event: {self.event_id}\n"
+            f"Notification Type: {self.notification_type.value}\n"
+            f"Timestamp: {self.timestamp}\n"
+            f"Content: {self.data}"
+        )
+
 
 class SeatData(BaseModel):
     section: str
@@ -26,10 +34,20 @@ class SeatData(BaseModel):
     seat: str
     price: Decimal
 
+    def __str__(self) -> str:
+        return f"Section: {self.section}, row: {self.row}, seat: {self.seat}, price: {self.price}"
+
 
 class SeatDataWithPriceChange(SeatData):
     old_price: Decimal
     price_change: Decimal
+
+    def __str__(self) -> str:
+        return (
+            f"Section: {self.section}, row: {self.row}, seat: {self.seat}, "
+            f"old price: {self.old_price}, new price: {self.price}, "
+            f"price change: {self.price_change}"
+        )
 
     # TODO add validator to count price_change
 
@@ -37,9 +55,15 @@ class SeatDataWithPriceChange(SeatData):
 class DropsData(BaseModel):
     seats: list[SeatData]
 
+    def __str__(self) -> str:
+        return "\n".join(str(seat) for seat in self.seats)
+
 
 class ChangeData(BaseModel):
     seats: list[SeatDataWithPriceChange]
+
+    def __str__(self) -> str:
+        return "\n".join(str(seat) for seat in self.seats)
 
 
 class DropsMessage(NotificationMessage):
@@ -51,9 +75,15 @@ class MovesData(BaseModel):
     original_size: int
     new_size: int
 
+    def __str__(self) -> str:
+        return f"original size: {self.original_size}, new size: {self.new_size}"
+
 
 class RemainsData(BaseModel):
     remains: int
+
+    def __str__(self) -> str:
+        return f"remaining seats: {self.remains}"
 
 
 class PriceChangeMessage(NotificationMessage):
