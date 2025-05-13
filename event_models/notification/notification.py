@@ -69,3 +69,30 @@ class MovesMessage(NotificationMessage):
 class RemainingSeatsMessage(NotificationMessage):
     notification_type: NotificationType = NotificationType.REMAINING_SEATS
     data: RemainsData
+
+
+class NotificationMessageFactory:
+    @staticmethod
+    def get_message_from_notify_type(
+        notify_type: NotificationType,
+        data: dict[str, Any],
+    ) -> NotificationMessage:
+        match notify_type:
+            case NotificationType.DROPS:
+                return DropsMessage(
+                    **data,
+                )
+            case NotificationType.PRICE_CHANGE:
+                return PriceChangeMessage(
+                    **data,
+                )
+            case NotificationType.MOVES:
+                return MovesMessage(
+                    **data,
+                )
+            case NotificationType.REMAINING_SEATS:
+                return RemainingSeatsMessage(
+                    **data,
+                )
+            case _:
+                raise ValueError(f"Unknown notification type: {notify_type}")
