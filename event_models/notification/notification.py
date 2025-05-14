@@ -72,7 +72,7 @@ class MovesData(BaseModel):
     removed: list[SeatData]
 
     def __str__(self) -> str:
-        return f"original size: {self.original_size}, new size: {self.new_size}"
+        return "\n".join(str(seat) for seat in self.removed)
 
 
 class RemainsData(BaseModel):
