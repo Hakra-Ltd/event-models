@@ -49,9 +49,6 @@ class SeatDataWithPriceChange(SeatData):
             f"price change: {self.price_change}"
         )
 
-    # TODO add validator to count price_change
-
-
 class DropsData(BaseModel):
     seats: list[SeatData]
 
@@ -72,8 +69,7 @@ class DropsMessage(NotificationMessage):
 
 
 class MovesData(BaseModel):
-    original_size: int
-    new_size: int
+    removed: list[SeatData]
 
     def __str__(self) -> str:
         return f"original size: {self.original_size}, new size: {self.new_size}"
