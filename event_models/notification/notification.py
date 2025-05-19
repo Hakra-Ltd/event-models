@@ -46,7 +46,7 @@ class DropsMessage(NotificationMessage):
 
 
 class MovesData(BaseModel):
-    removed: list[SeatData]
+    seats: list[SeatData]
 
 
 class RemainsData(BaseModel):
