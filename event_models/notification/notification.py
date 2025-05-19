@@ -6,20 +6,6 @@ from typing import Any
 from pydantic import BaseModel
 
 
-class NotificationType(enum.StrEnum):
-    DROPS = "drops"
-    PRICE_CHANGE = "price-change"
-    MOVES = "moves"
-    REMAINING_SEATS = "remaining-seats"
-
-
-class NotificationMessage(BaseModel):
-    notification_type: NotificationType
-    event_id: str
-    timestamp: datetime.datetime
-    data: Any
-
-
 class SeatData(BaseModel):
     section: str
     row: str
@@ -32,6 +18,13 @@ class SeatDataWithPriceChange(SeatData):
     price_change: Decimal
 
 
+class NotificationType(enum.StrEnum):
+    DROPS = "drops"
+    PRICE_CHANGE = "price-change"
+    MOVES = "moves"
+    REMAINING_SEATS = "remaining-seats"
+
+
 class DropsData(BaseModel):
     seats: list[SeatData]
 
@@ -40,17 +33,24 @@ class ChangeData(BaseModel):
     seats: list[SeatDataWithPriceChange]
 
 
-class DropsMessage(NotificationMessage):
-    notification_type: NotificationType = NotificationType.DROPS
-    data: DropsData
-
-
 class MovesData(BaseModel):
     seats: list[SeatData]
 
 
 class RemainsData(BaseModel):
     remains: int
+
+
+class NotificationMessage(BaseModel):
+    notification_type: NotificationType
+    event_id: str
+    timestamp: datetime.datetime
+    data: DropsData | ChangeData | MovesData | RemainsData
+
+
+class DropsMessage(NotificationMessage):
+    notification_type: NotificationType = NotificationType.DROPS
+    data: DropsData
 
 
 class PriceChangeMessage(NotificationMessage):
