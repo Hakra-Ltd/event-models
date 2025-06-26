@@ -42,6 +42,7 @@ class MessageHeader(BaseModel):
     event_timestamp: datetime.datetime | None = Field(alias="event-timestamp", default=None)
     no_map: bool | None = Field(default=False, alias="no-map")
     not_found: bool | None = Field(default=False, alias="not-found")
+    not_on_sale: bool | None = Field(default=False, alias="not-on-sale")
 
     @field_validator("event_timestamp", mode="after")
     def set_default_timezone(cls: Any, v: datetime.datetime) -> datetime.datetime:
@@ -59,6 +60,9 @@ class MessageHeader(BaseModel):
             event_id=self.event_id,
             event_timestamp=self.event_timestamp,
         )
+
+    class Config:
+        populate_by_name = True
 
 
 class EventMessage(BaseModel):
