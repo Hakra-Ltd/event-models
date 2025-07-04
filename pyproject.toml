@@ -12,6 +12,7 @@ include = ["CHANGELOG.md", "event_models/py.typed"]
 [tool.poetry.dependencies]
 python = "^3.11"
 pydantic = "^2.9.2"
+event-models = { git = "https://github.com/Hakra-Ltd/event-models.git", branch = "feature/action" }
 
 
 [tool.poetry.group.dev.dependencies]
