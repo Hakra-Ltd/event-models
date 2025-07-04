@@ -1,9 +1,9 @@
 import datetime
 import enum
 from decimal import Decimal
-from typing import Optional
+from typing import Any, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 # Same as ListingStatus in arb
@@ -53,3 +53,18 @@ class ActionLogSchema(BaseModel):
     synced: bool
     retryable: bool = Field(default=True)
     error: dict[datetime.datetime, str] | None = None
+
+    @model_validator(mode="before")
+    def check_error(cls: Any, values: Any) -> Any:
+        synced = values.get("synced")
+
+        if synced is True:
+            if values.get("error"):
+                raise ValueError("Sync is set with error")
+
+            if not values.get("sync_time"):
+                raise ValueError("Sync time is required when sync is set to True")
+
+        else:
+            if values.get("sync_time"):
+                raise ValueError("Sync time is cant be set when sync is set to False")
