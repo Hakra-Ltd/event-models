@@ -51,4 +51,4 @@ class ActionLogSchema(BaseModel):
     action_id: int
     sync_time: datetime.datetime
     synced: bool
-    error: tuple[datetime.datetime, str] | None = None
+    error: dict[datetime.datetime, str] | None = None
