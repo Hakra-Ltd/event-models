@@ -49,7 +49,7 @@ class ActionSchema(BaseModel):
 
 class ActionLogSchema(BaseModel):
     action_id: int
-    sync_time: datetime.datetime
+    sync_time: datetime.datetime | None = None
     synced: bool
     retryable: bool = Field(default=True)
     error: dict[datetime.datetime, str] | None = None
