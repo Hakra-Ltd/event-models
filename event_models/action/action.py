@@ -53,6 +53,7 @@ class ActionLogSchema(BaseModel):
     synced: bool
     retryable: bool = Field(default=True)
     error: dict[datetime.datetime, str] | None = None
+    error_code: int | None = None
 
     @model_validator(mode="before")
     def check_error(cls: Any, values: Any) -> Any:
