@@ -60,9 +60,6 @@ class ActionLogSchema(BaseModel):
         synced = values.get("synced")
 
         if synced is True:
-            if values.get("error"):
-                raise ValueError("Sync is set with error")
-
             if not values.get("sync_time"):
                 raise ValueError("Sync time is required when sync is set to True")
 
