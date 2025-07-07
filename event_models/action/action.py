@@ -69,3 +69,5 @@ class ActionLogSchema(BaseModel):
         else:
             if values.get("sync_time"):
                 raise ValueError("Sync time is cant be set when sync is set to False")
+
+        return values
