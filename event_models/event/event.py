@@ -5,13 +5,14 @@ from typing import Any
 from pydantic import BaseModel, Field, field_validator
 
 
-# TODO unify with ScrapType from event_models.enum
+# TODO unify with ScrapType from trigger.enum
 class EventSource(enum.StrEnum):
     TICKETMASTER_MAP = "ticketmaster-map"
     TICKETMASTER_FACET = "ticketmaster-facet"
     VIVIDSEATS = "vividseats"
     EVENUE_SEAT = "evenue-seat"
     STUBHUB = "stubhub"
+    TICKPICK = "tickpick"
 
 
 class EventAction(enum.StrEnum):
