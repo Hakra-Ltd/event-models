@@ -15,6 +15,13 @@ class EventSource(enum.StrEnum):
     TICKPICK = "tickpick"
 
 
+class EventStoreType(enum.StrEnum):
+    TICKETMASTER = "ticketmaster"
+    VIVIDSEATS = "vividseats"
+    EVENUE = "evenue"
+    TICKPICK = "tickpick"
+
+
 class EventAction(enum.StrEnum):
     # store data
     STORE = "store"
