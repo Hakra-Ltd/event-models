@@ -2,7 +2,7 @@ import datetime
 import enum
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 # TODO unify with ScrapType from trigger.enum
@@ -35,6 +35,9 @@ class MessageHeader(BaseModel):
     event_timestamp: datetime.datetime | None = Field(alias="event-timestamp", default=None)
     no_map: bool | None = Field(default=False, alias="no-map")
     not_found: bool | None = Field(default=False, alias="not-found")
+    not_on_sale: bool | None = Field(default=False, alias="not-on-sale")
+
+    model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)  # type: ignore[typeddict-unknown-key]
 
     @field_validator("event_timestamp", mode="after")
     def set_default_timezone(cls: Any, v: datetime.datetime) -> datetime.datetime:
