@@ -20,6 +20,7 @@ class EventStoreType(enum.StrEnum):
     VIVIDSEATS = "vividseats"
     EVENUE = "evenue"
     TICKPICK = "tickpick"
+    STUBHUB = "stubhub"
 
 
 class EventAction(enum.StrEnum):
