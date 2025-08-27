@@ -1,7 +1,10 @@
 import datetime
 from decimal import Decimal
+from typing import Any
 
 from pydantic import BaseModel, NonNegativeInt
+
+# LISTING_TOTAL_PRICE_INDEX = 1
 
 
 class TicketmasterPlaceAvailable(BaseModel):
@@ -16,9 +19,9 @@ class TicketmasterPlaceAvailable(BaseModel):
 
     # added to fit available/update endpoint
     # place_id: str,
-    full_section: str
-    section: str
-    row: str
+    full_section: str | None
+    section: str | None
+    row: str | None
     row_rank: int | None
     seat_number: str | None
     attributes: list[str]
@@ -34,5 +37,74 @@ class TicketmasterPlaceAvailable(BaseModel):
     prev_updated: datetime.datetime | None
     update_reason: str | None
 
+
 class TicketmasterEventAvailable(BaseModel):
-    places: dict[int, TicketmasterPlaceAvailable]
+    event_id: str
+    places: dict[str, TicketmasterPlaceAvailable]
+
+    @classmethod
+    def from_redis_dict(cls, event_id: str, input_dict: dict[str, Any]) -> "TicketmasterEventAvailable":
+        places: dict[str, TicketmasterPlaceAvailable] = {}
+
+        for key, value_list in input_dict.items():
+            # limit to check only listing and total price
+            # for i, val in enumerate(value_list[:LISTING_TOTAL_PRICE_INDEX]):
+            #     try:
+            #         # Try to convert the string to float
+            #         float_val = float(val)
+            #         # Format to 2 decimal places and store back as string
+            #         value_list[i] = f"{float_val:.2f}"
+            #     except (ValueError, TypeError):
+            #         # If conversion fails, keep the original string
+            #         continue
+
+            # old format
+            if len(value_list) == 7:
+                places[event_id] = TicketmasterPlaceAvailable(
+                    list_price=Decimal(f"{value_list[0]:.2f}"),
+                    total_price=Decimal(f"{value_list[0]:.2f}"),
+                    offer_id=str(value_list[2]),
+                    offer_name=str(value_list[3]),
+                    sellable_quantities=value_list[4],
+                    protected=bool(value_list[5]),
+                    inventory_type=str(value_list[6]),
+                    full_section=None,
+                    section=None,
+                    row=None,
+                    row_rank=None,
+                    seat_number=None,
+                    attributes=[],
+                    description=[],
+                    inserted=datetime.datetime.fromisoformat(value_list[1]),
+                    prev_updated=None,
+                    update_reason=None,
+                )
+
+            elif len(value_list) == 17:
+                places[event_id] = TicketmasterPlaceAvailable(
+                    list_price=Decimal(f"{value_list[0]:.2f}"),
+                    total_price=Decimal(f"{value_list[0]:.2f}"),
+                    offer_id=str(value_list[2]),
+                    offer_name=str(value_list[3]),
+                    sellable_quantities=value_list[4],
+                    protected=bool(value_list[5]),
+                    inventory_type=str(value_list[6]),
+                    full_section=str(value_list[7]),
+                    section=str(value_list[8]),
+                    row=str(value_list[9]),
+                    row_rank=int(value_list[10]) if value_list[10] is not None else None,
+                    seat_number=str(value_list[11]) if value_list[11] is not None else None,
+                    attributes=value_list[12],
+                    description=value_list[13],
+                    inserted=datetime.datetime.fromisoformat(value_list[14]),
+                    prev_updated=datetime.datetime.fromisoformat(str(value_list[15])) if value_list[15] else None,
+                    update_reason=value_list[16] if value_list[15] else None,
+                )
+            else:
+                raise ValueError(
+                    f"Unexpected number of values in redis dict for event {event_id}: {len(value_list)} - {value_list}"
+                )
+
+        return cls(event_id=event_id, places=places)
+
+    # TODO From endpoint it should be possible to create via dict key names -> check
