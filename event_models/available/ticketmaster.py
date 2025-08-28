@@ -1,5 +1,6 @@
 import datetime
 from decimal import Decimal
+from plistlib import dumps
 from typing import Any
 
 from pydantic import BaseModel, NonNegativeInt
@@ -97,11 +98,11 @@ class TicketmasterEventAvailable(BaseModel):
         return cls(event_id=event_id, places=places)
 
     @classmethod
-    def from_event_dict(cls, event_id: str, event_data: list[BaseModel]) -> "TicketmasterEventAvailable":
-        return cls(
-            event_id=event_id,
-            places={
-                place_data["place_id"]: TicketmasterPlaceAvailable(**place_data.model_dump())
-                for place_data in event_data
-            },
-        )
+    def from_event_models(cls, event_id: str, event_data: list[BaseModel]) -> "TicketmasterEventAvailable":
+        places: dict[str, TicketmasterPlaceAvailable] = {}
+
+        for place_data in event_data:
+            dump_dict = place_data.model_dump()
+            places[dump_dict["place_id"]] = TicketmasterPlaceAvailable(**dump_dict)
+
+        return cls(event_id=event_id, places=places)
