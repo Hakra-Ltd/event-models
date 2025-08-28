@@ -47,17 +47,6 @@ class TicketmasterEventAvailable(BaseModel):
         places: dict[str, TicketmasterPlaceAvailable] = {}
 
         for key, value_list in input_dict.items():
-            # limit to check only listing and total price
-            # for i, val in enumerate(value_list[:LISTING_TOTAL_PRICE_INDEX]):
-            #     try:
-            #         # Try to convert the string to float
-            #         float_val = float(val)
-            #         # Format to 2 decimal places and store back as string
-            #         value_list[i] = f"{float_val:.2f}"
-            #     except (ValueError, TypeError):
-            #         # If conversion fails, keep the original string
-            #         continue
-
             # old format
             if len(value_list) == 7:
                 places[event_id] = TicketmasterPlaceAvailable(
@@ -107,4 +96,9 @@ class TicketmasterEventAvailable(BaseModel):
 
         return cls(event_id=event_id, places=places)
 
-    # TODO From endpoint it should be possible to create via dict key names -> check
+    @classmethod
+    def from_event_dict(cls, event_id: str, event_dict: dict[str, Any]) -> "TicketmasterEventAvailable":
+        return cls(
+            event_id=event_id,
+            places={place_id: TicketmasterPlaceAvailable(**place_data) for place_id, place_data in event_dict.items()},
+        )
