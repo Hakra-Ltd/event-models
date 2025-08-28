@@ -47,12 +47,13 @@ class TicketmasterEventAvailable(BaseModel):
     def from_redis_dict(cls, event_id: str, input_dict: dict[str, Any]) -> "TicketmasterEventAvailable":
         places: dict[str, TicketmasterPlaceAvailable] = {}
 
-        for key, value_list in input_dict.items():
+        for place_id, value_list in input_dict.items():
             # old format
+            # TODO or ignore completely and load from the endpoint?
             if len(value_list) == 7:
-                places[event_id] = TicketmasterPlaceAvailable(
+                places[place_id] = TicketmasterPlaceAvailable(
                     list_price=Decimal(f"{value_list[0]:.2f}"),
-                    total_price=Decimal(f"{value_list[0]:.2f}"),
+                    total_price=Decimal(f"{value_list[1]:.2f}"),
                     offer_id=str(value_list[2]),
                     offer_name=str(value_list[3]),
                     sellable_quantities=value_list[4],
@@ -65,15 +66,17 @@ class TicketmasterEventAvailable(BaseModel):
                     seat_number=None,
                     attributes=[],
                     description=[],
-                    inserted=datetime.datetime.fromisoformat(value_list[1]),
+                    # TODO check if can cause an issue
+                    # during the processing, the avail endpoint needs to be called to get relevant data
+                    inserted=None,
                     prev_updated=None,
                     update_reason=None,
                 )
 
             elif len(value_list) == 17:
-                places[event_id] = TicketmasterPlaceAvailable(
+                places[place_id] = TicketmasterPlaceAvailable(
                     list_price=Decimal(f"{value_list[0]:.2f}"),
-                    total_price=Decimal(f"{value_list[0]:.2f}"),
+                    total_price=Decimal(f"{value_list[1]:.2f}"),
                     offer_id=str(value_list[2]),
                     offer_name=str(value_list[3]),
                     sellable_quantities=value_list[4],
@@ -96,6 +99,30 @@ class TicketmasterEventAvailable(BaseModel):
                 )
 
         return cls(event_id=event_id, places=places)
+
+    def to_redis_dict(self) -> dict[str, Any]:
+        return {
+            place_id: [
+                str(place_data.list_price),
+                str(place_data.total_price),
+                place_data.offer_id,
+                place_data.offer_name,
+                place_data.sellable_quantities,
+                place_data.protected,
+                place_data.inventory_type,
+                place_data.full_section,
+                place_data.section,
+                place_data.row,
+                place_data.row_rank,
+                place_data.seat_number,
+                place_data.attributes,
+                place_data.description,
+                place_data.inserted.isoformat(),
+                place_data.prev_updated.isoformat() if place_data.prev_updated else None,
+                place_data.update_reason if place_data.update_reason else None,
+            ]
+            for place_id, place_data in self.places.items()
+        }
 
     @classmethod
     def from_event_models(cls, event_id: str, event_data: list[BaseModel]) -> "TicketmasterEventAvailable":
