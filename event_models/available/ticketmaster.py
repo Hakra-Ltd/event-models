@@ -97,8 +97,11 @@ class TicketmasterEventAvailable(BaseModel):
         return cls(event_id=event_id, places=places)
 
     @classmethod
-    def from_event_dict(cls, event_id: str, event_data: list[dict[str, Any]]) -> "TicketmasterEventAvailable":
+    def from_event_dict(cls, event_id: str, event_data: list[BaseModel]) -> "TicketmasterEventAvailable":
         return cls(
             event_id=event_id,
-            places={place_data["place_id"]: TicketmasterPlaceAvailable(**place_data) for place_data in event_data},
+            places={
+                place_data["place_id"]: TicketmasterPlaceAvailable(**place_data.model_dump())
+                for place_data in event_data
+            },
         )
