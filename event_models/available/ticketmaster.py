@@ -1,11 +1,11 @@
 import datetime
 from decimal import Decimal
-from plistlib import dumps
 from typing import Any
 
-from pydantic import BaseModel, NonNegativeInt
+from pydantic import BaseModel
 
-# LISTING_TOTAL_PRICE_INDEX = 1
+_ORIGINAL_REDIS_SCHEMA_LEN = 7
+_NEW_REDIS_SCHEMA_LEN = 17
 
 
 class TicketmasterPlaceAvailable(BaseModel):
@@ -20,10 +20,15 @@ class TicketmasterPlaceAvailable(BaseModel):
 
     # added to fit available/update endpoint
     # place_id: str,
+    # TODO temporary to none to be able to work with old schema
     full_section: str | None
+    # TODO temporary to none to be able to work with old schema
     section: str | None
+    # TODO temporary to none to be able to work with old schema
     row: str | None
+    # TODO temporary to none to be able to work with old schema
     row_rank: int | None
+    # TODO temporary to none to be able to work with old schema
     seat_number: str | None
     attributes: list[str]
     # offer_id: str | None,
@@ -34,7 +39,8 @@ class TicketmasterPlaceAvailable(BaseModel):
     # inventory_type: str | None,
     # list_price: Decimal | None,
     # total_price: Decimal | None,
-    inserted: datetime.datetime
+    # TODO temporary to none to be able to work with old schema
+    inserted: datetime.datetime | None
     prev_updated: datetime.datetime | None
     update_reason: str | None
 
@@ -42,15 +48,19 @@ class TicketmasterPlaceAvailable(BaseModel):
 class TicketmasterEventAvailable(BaseModel):
     event_id: str
     places: dict[str, TicketmasterPlaceAvailable]
+    old_schema: bool
 
     @classmethod
     def from_redis_dict(cls, event_id: str, input_dict: dict[str, Any]) -> "TicketmasterEventAvailable":
         places: dict[str, TicketmasterPlaceAvailable] = {}
+        origin_count = 0
+        new_count = 0
 
         for place_id, value_list in input_dict.items():
             # old format
-            # TODO or ignore completely and load from the endpoint?
-            if len(value_list) == 7:
+            if len(value_list) == _ORIGINAL_REDIS_SCHEMA_LEN:
+                origin_count += 1
+
                 places[place_id] = TicketmasterPlaceAvailable(
                     list_price=Decimal(f"{value_list[0]:.2f}"),
                     total_price=Decimal(f"{value_list[1]:.2f}"),
@@ -73,7 +83,9 @@ class TicketmasterEventAvailable(BaseModel):
                     update_reason=None,
                 )
 
-            elif len(value_list) == 17:
+            elif len(value_list) == _NEW_REDIS_SCHEMA_LEN:
+                new_count += 1
+
                 places[place_id] = TicketmasterPlaceAvailable(
                     list_price=Decimal(f"{value_list[0]:.2f}"),
                     total_price=Decimal(f"{value_list[1]:.2f}"),
@@ -98,9 +110,17 @@ class TicketmasterEventAvailable(BaseModel):
                     f"Unexpected number of values in redis dict for event {event_id}: {len(value_list)} - {value_list}"
                 )
 
-        return cls(event_id=event_id, places=places)
+        if origin_count and new_count:
+            raise ValueError(
+                f"Found {origin_count} old schema values and {new_count} new schema values for event {event_id}"
+            )
+
+        return cls(event_id=event_id, places=places, old_schema=origin_count > 0)
 
     def to_redis_dict(self) -> dict[str, Any]:
+        if self.old_schema:
+            raise ValueError(f"{self.event_id}: cannot convert to old schema")
+
         return {
             place_id: [
                 str(place_data.list_price),
@@ -117,7 +137,7 @@ class TicketmasterEventAvailable(BaseModel):
                 place_data.seat_number,
                 place_data.attributes,
                 place_data.description,
-                place_data.inserted.isoformat(),
+                place_data.inserted.isoformat(),  # type: ignore[union-attr]
                 place_data.prev_updated.isoformat() if place_data.prev_updated else None,
                 place_data.update_reason if place_data.update_reason else None,
             ]
@@ -132,4 +152,4 @@ class TicketmasterEventAvailable(BaseModel):
             dump_dict = place_data.model_dump()
             places[dump_dict["place_id"]] = TicketmasterPlaceAvailable(**dump_dict)
 
-        return cls(event_id=event_id, places=places)
+        return cls(event_id=event_id, places=places, old_schema=False)
