@@ -51,19 +51,29 @@ class TicketmasterEventAvailable(BaseModel):
     old_schema: bool
 
     @classmethod
-    def from_redis_dict(cls, event_id: str, input_dict: dict[str, Any]) -> "TicketmasterEventAvailable":
+    def from_place_dict(
+        cls, event_id: str, input_dict: dict[str, Any], price_float: bool = True
+    ) -> "TicketmasterEventAvailable":
         places: dict[str, TicketmasterPlaceAvailable] = {}
         origin_count = 0
         new_count = 0
 
         for place_id, value_list in input_dict.items():
+            if price_float:
+                list_price_float = value_list[0]
+                total_price_float = value_list[1]
+            # string to float conversion -> to be sure the data has a correct format when floating point is used
+            else:
+                list_price_float = float(value_list[0])
+                total_price_float = float(value_list[1])
+
             # old format
             if len(value_list) == _ORIGINAL_REDIS_SCHEMA_LEN:
                 origin_count += 1
 
                 places[place_id] = TicketmasterPlaceAvailable(
-                    list_price=Decimal(f"{value_list[0]:.2f}"),
-                    total_price=Decimal(f"{value_list[1]:.2f}"),
+                    list_price=Decimal(f"{list_price_float:.2f}"),
+                    total_price=Decimal(f"{total_price_float:.2f}"),
                     offer_id=str(value_list[2]),
                     offer_name=str(value_list[3]),
                     sellable_quantities=value_list[4],
