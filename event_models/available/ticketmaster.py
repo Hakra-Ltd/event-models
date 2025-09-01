@@ -2,7 +2,7 @@ import datetime
 from decimal import Decimal
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator, field_validator
 
 _ORIGINAL_REDIS_SCHEMA_LEN = 7
 _NEW_REDIS_SCHEMA_LEN = 17
@@ -43,6 +43,10 @@ class TicketmasterPlaceAvailable(BaseModel):
     inserted: datetime.datetime | None
     prev_updated: datetime.datetime | None
     update_reason: str | None
+
+    @field_validator("list_price", "total_price", mode="before")
+    def set_decimal_places(cls, v: float) -> Decimal:
+        return Decimal(f"{v:.2f}")
 
 
 class TicketmasterEventAvailable(BaseModel):
@@ -86,7 +90,6 @@ class TicketmasterEventAvailable(BaseModel):
                     seat_number=None,
                     attributes=[],
                     description=[],
-                    # TODO check if can cause an issue
                     # during the processing, the avail endpoint needs to be called to get relevant data
                     inserted=None,
                     prev_updated=None,
@@ -97,6 +100,7 @@ class TicketmasterEventAvailable(BaseModel):
                 new_count += 1
 
                 places[place_id] = TicketmasterPlaceAvailable(
+                    #
                     list_price=Decimal(f"{list_price_float:.2f}"),
                     total_price=Decimal(f"{total_price_float:.2f}"),
                     offer_id=str(value_list[2]),
