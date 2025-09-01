@@ -45,7 +45,10 @@ class TicketmasterPlaceAvailable(BaseModel):
     update_reason: str | None
 
     @field_validator("list_price", "total_price", mode="before")
-    def set_decimal_places(cls, v: float) -> Decimal:
+    def set_decimal_places(cls, v: Any) -> Decimal:
+        if isinstance(v, str):
+            return Decimal(f"{float(v):.2f}")
+
         return Decimal(f"{v:.2f}")
 
 
