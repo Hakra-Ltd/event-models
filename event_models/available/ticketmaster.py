@@ -59,19 +59,25 @@ class TicketmasterEventAvailable(BaseModel):
 
     @classmethod
     def from_place_dict(
-        cls, event_id: str, input_dict: dict[str, Any], price_float: bool = True
+        cls,
+        event_id: str,
+        input_dict: dict[str, Any],
     ) -> "TicketmasterEventAvailable":
         places: dict[str, TicketmasterPlaceAvailable] = {}
         origin_count = 0
         new_count = 0
 
         for place_id, value_list in input_dict.items():
-            if price_float:
+            if isinstance(value_list[0], float):
                 list_price_float = value_list[0]
-                total_price_float = value_list[1]
-            # string to float conversion -> to be sure the data has a correct format when floating point is used
             else:
+                # string to float conversion -> to be sure the data has a correct format when floating point is used
                 list_price_float = float(value_list[0])
+
+            if isinstance(value_list[1], float):
+                total_price_float = value_list[1]
+            else:
+                # string to float conversion -> to be sure the data has a correct format when floating point is used
                 total_price_float = float(value_list[1])
 
             # old format
