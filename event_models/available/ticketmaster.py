@@ -17,6 +17,8 @@ class TicketmasterPlaceAvailable(BaseModel):
     sellable_quantities: list[int]
     protected: bool
     inventory_type: str
+    # Has value - GA, otherwise None
+    count: int | None = None
 
     # added to fit available/update endpoint
     # place_id: str,
