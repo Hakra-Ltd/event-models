@@ -4,8 +4,8 @@ from typing import Any
 
 from pydantic import BaseModel, model_validator, field_validator
 
-_ORIGINAL_REDIS_SCHEMA_LEN = 7
-_NEW_REDIS_SCHEMA_LEN = 17
+_ORIGINAL_REDIS_SCHEMA_LEN = 8
+_NEW_REDIS_SCHEMA_LEN = 18
 
 
 class TicketmasterPlaceAvailable(BaseModel):
