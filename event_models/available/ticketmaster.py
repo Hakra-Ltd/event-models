@@ -94,7 +94,7 @@ class TicketmasterEventAvailable(BaseModel):
                     sellable_quantities=value_list[4],
                     protected=bool(value_list[5]),
                     inventory_type=str(value_list[6]),
-                    count=value_list[7] if len(value_list) == 8 else None,
+                    count=value_list[7],
                     full_section=None,
                     section=None,
                     row=None,
