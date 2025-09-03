@@ -4,7 +4,8 @@ from typing import Any
 
 from pydantic import BaseModel, model_validator, field_validator
 
-_ORIGINAL_REDIS_SCHEMA_LEN = 8
+_ORIGINAL_REDIS_SCHEMA_LEN = 7
+_ORIGINAL_REDIS_SCHEMA_GA_LEN = 8
 _NEW_REDIS_SCHEMA_LEN = 18
 
 
@@ -82,8 +83,10 @@ class TicketmasterEventAvailable(BaseModel):
                 # string to float conversion -> to be sure the data has a correct format when floating point is used
                 total_price_float = float(value_list[1])
 
+            curr_len = len(value_list)
+
             # old format
-            if len(value_list) == _ORIGINAL_REDIS_SCHEMA_LEN:
+            if curr_len in (_ORIGINAL_REDIS_SCHEMA_LEN, _ORIGINAL_REDIS_SCHEMA_GA_LEN):
                 origin_count += 1
 
                 places[place_id] = TicketmasterPlaceAvailable(
@@ -94,7 +97,7 @@ class TicketmasterEventAvailable(BaseModel):
                     sellable_quantities=value_list[4],
                     protected=bool(value_list[5]),
                     inventory_type=str(value_list[6]),
-                    count=value_list[7],
+                    count=value_list[7] if curr_len == _ORIGINAL_REDIS_SCHEMA_GA_LEN else None,
                     full_section=None,
                     section=None,
                     row=None,
