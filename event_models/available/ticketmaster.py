@@ -181,6 +181,20 @@ class TicketmasterEventAvailable(BaseModel):
 
         for place_data in event_data:
             dump_dict = place_data.model_dump()
+
+            # GA supply
+            if "offer_id" not in dump_dict:
+                dump_dict["offer_id"] = ""
+
+            if "seat_number" not in dump_dict:
+                dump_dict["seat_number"] = ""
+
+            if "row_rank" not in dump_dict:
+                dump_dict["row_rank"] = None
+
+            if "sellable_quantities" not in dump_dict:
+                dump_dict["sellable_quantities"] = []
+
             places[dump_dict["place_id"]] = TicketmasterPlaceAvailable(**dump_dict)
 
         return cls(event_id=event_id, places=places, old_schema=False)
