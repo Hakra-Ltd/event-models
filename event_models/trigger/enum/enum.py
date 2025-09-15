@@ -11,6 +11,7 @@ class ScrapType(StrEnum):
     EVENUE_PRICES = "evenue-prices"
     STUBHUB = "stubhub"
     TICKPICK = "tickpick"
+    GOTICKETS = "gotickets"
 
 
 class FailureReason(StrEnum):
