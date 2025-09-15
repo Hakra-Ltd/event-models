@@ -13,9 +13,9 @@ class TicketmasterPlaceAvailable(BaseModel):
     # Existing redis schema
     list_price: Decimal
     total_price: Decimal
-    offer_id: str
+    offer_id: str | None = None
     offer_name: str
-    sellable_quantities: list[int]
+    sellable_quantities: list[int] | None = None
     protected: bool
     inventory_type: str
     # Has value - GA, otherwise None
