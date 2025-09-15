@@ -2,7 +2,7 @@ import datetime
 from decimal import Decimal
 from typing import Any
 
-from pydantic import BaseModel, model_validator, field_validator
+from pydantic import BaseModel, field_validator
 
 _ORIGINAL_REDIS_SCHEMA_LEN = 7
 _ORIGINAL_REDIS_SCHEMA_GA_LEN = 8
@@ -176,7 +176,7 @@ class TicketmasterEventAvailable(BaseModel):
         }
 
     @classmethod
-    def from_event_models(cls, event_id: str, event_data: list[BaseModel]) -> "Tick˚etmasterEventAvailable":
+    def from_event_models(cls, event_id: str, event_data: list[BaseModel]) -> "TicketmasterEventAvailable":
         places: dict[str, TicketmasterPlaceAvailable] = {}
 
         for place_data in event_data:
