@@ -13,6 +13,7 @@ class EventSource(enum.StrEnum):
     EVENUE_SEAT = "evenue-seat"
     STUBHUB = "stubhub"
     TICKPICK = "tickpick"
+    GOTICKETS = "gotickets"
 
 
 class EventStoreType(enum.StrEnum):
@@ -21,6 +22,7 @@ class EventStoreType(enum.StrEnum):
     EVENUE = "evenue"
     TICKPICK = "tickpick"
     STUBHUB = "stubhub"
+    GOTICKETS = "gotickets"
 
 
 class EventAction(enum.StrEnum):
