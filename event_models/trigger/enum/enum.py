@@ -15,6 +15,7 @@ class ScrapType(StrEnum):
 
 
 class FailureReason(StrEnum):
+    ACCESS_DENIED = "access_denied"
     PROXY_ERROR = "proxy_error"
     NOT_FOUND = "not_found"
     SCRAP_SERVICE_OVERLOAD = "scrap_service_overload"
