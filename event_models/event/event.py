@@ -10,7 +10,7 @@ class EventSource(enum.StrEnum):
     TICKETMASTER_MAP = "ticketmaster-map"
     TICKETMASTER_FACET = "ticketmaster-facet"
     VIVIDSEATS = "vividseats"
-    EVENUE_SEAT = "evenue-seat"
+    PACIOLAN = "paciolan"
     STUBHUB = "stubhub"
     TICKPICK = "tickpick"
     GOTICKETS = "gotickets"
@@ -19,7 +19,7 @@ class EventSource(enum.StrEnum):
 class EventStoreType(enum.StrEnum):
     TICKETMASTER = "ticketmaster"
     VIVIDSEATS = "vividseats"
-    EVENUE = "evenue"
+    PACIOLAN = "paciolan"
     TICKPICK = "tickpick"
     STUBHUB = "stubhub"
     GOTICKETS = "gotickets"
