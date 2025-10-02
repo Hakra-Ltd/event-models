@@ -7,5 +7,6 @@ class LoggerMessage(StrEnum):
     SENTRY = "sentry"
     RABBIT = "rabbit"
     MONGO = "mongo"
+    POSTGRES = "postgres"
     TIME = "time"
     SERVICE = "service"
