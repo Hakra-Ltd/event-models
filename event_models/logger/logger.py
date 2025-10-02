@@ -12,6 +12,29 @@ class AppLogger(logging.Logger):
 
         self._logger = logging.getLogger(name)
 
+    @staticmethod
+    def init_fluent_logging(tag: str, host: str, port: int, log_format: str, datefmt: str) -> None:
+        fluent_handler = FluentHandler(
+            tag=tag,
+            host=host,
+            port=port,
+        )
+
+        formatter = SafeFluentRecordFormatter(
+            {
+                "log": log_format,
+                "level": "%(levelname)s",
+                "message_id": "%(message_id)s",
+            }
+        )
+
+        formatter.datefmt = datefmt
+        fluent_handler.setFormatter(formatter)
+        fluent_handler.setLevel(logging.DEBUG)
+
+        logger = logging.getLogger()
+        logger.addHandler(fluent_handler)
+
     @override
     def debug(
         self,
@@ -182,26 +205,3 @@ class SafeFluentRecordFormatter(FluentRecordFormatter):  # type: ignore[misc]
             record.message_id = str(LoggerMessage.UNKNOWN)
 
         return super().format(record)  # type: ignore[no-any-return]
-
-
-def init_fluent_logging(tag: str, host: str, port: int, log_format: str, datefmt: str) -> None:
-    fluent_handler = FluentHandler(
-        tag=tag,
-        host=host,
-        port=port,
-    )
-
-    formatter = SafeFluentRecordFormatter(
-        {
-            "log": log_format,
-            "level": "%(levelname)s",
-            "message_id": "%(message_id)s",
-        }
-    )
-
-    formatter.datefmt = datefmt
-    fluent_handler.setFormatter(formatter)
-    fluent_handler.setLevel(logging.DEBUG)
-
-    logger = logging.getLogger()
-    logger.addHandler(fluent_handler)
