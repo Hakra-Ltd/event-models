@@ -18,6 +18,7 @@ class AppLogger(logging.Logger):
             tag=tag,
             host=host,
             port=port,
+            nanosecond_precision=True,
         )
 
         formatter = SafeFluentRecordFormatter(
