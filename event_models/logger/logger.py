@@ -167,7 +167,7 @@ class AppLogger(logging.Logger):
         msg: object,
         *args: object,
         message_id: Any = LoggerMessage.UNKNOWN,
-        exc_info: Any = None,
+        exc_info: Any = True,
         stack_info: Any = False,
         stacklevel: int = 1,
         extra: Any = None,
