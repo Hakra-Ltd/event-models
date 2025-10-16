@@ -1,9 +1,9 @@
 import logging
-from typing import override, Any
-
-from event_models.logger.message import LoggerMessage
+from typing import Any, override
 
 from fluent.handler import FluentHandler, FluentRecordFormatter  # type: ignore[import-untyped]
+
+from event_models.logger.message import LoggerMessage
 
 
 class AppLogger(logging.Logger):
