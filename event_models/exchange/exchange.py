@@ -8,3 +8,4 @@ class EventExchange(StrEnum):
     SEATGEEK = "Seatgeek"
     PACIOLAN = "Paciolan"
     STUBHUB = "StubHub"
+    GOTICKETS = "Gotickets"
