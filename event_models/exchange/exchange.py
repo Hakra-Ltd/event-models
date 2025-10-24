@@ -9,3 +9,4 @@ class EventExchange(StrEnum):
     PACIOLAN = "Paciolan"
     STUBHUB = "StubHub"
     GOTICKETS = "Gotickets"
+    TICKPICK = "Tickpick"
