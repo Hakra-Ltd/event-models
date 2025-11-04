@@ -14,6 +14,7 @@ class EventSource(enum.StrEnum):
     STUBHUB = "stubhub"
     TICKPICK = "tickpick"
     GOTICKETS = "gotickets"
+    MILB = "milb"
 
 
 class EventStoreType(enum.StrEnum):
@@ -23,6 +24,7 @@ class EventStoreType(enum.StrEnum):
     TICKPICK = "tickpick"
     STUBHUB = "stubhub"
     GOTICKETS = "gotickets"
+    MILB = "milb"
 
 
 class EventAction(enum.StrEnum):
