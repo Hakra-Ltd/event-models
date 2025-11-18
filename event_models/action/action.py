@@ -6,6 +6,11 @@ from typing import Any, Optional
 from pydantic import BaseModel, Field, model_validator
 
 
+class SplitType(enum.Enum):
+    ANY = "any"
+    CUSTOM = "custom"
+
+
 # Same as ListingStatus in arb
 class ActionStatus(enum.Enum):
     ACTIVE = "ACTIVE"
@@ -35,6 +40,7 @@ class ActionData(BaseModel):
     tags: list[str] = Field(description="List of tags")
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
+    split_type: SplitType = Field(description="split type")
 
 
 class ActionSchema(BaseModel):
