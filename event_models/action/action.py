@@ -5,6 +5,8 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field, model_validator
 
+from event_models.exchange.exchange import EventExchange
+
 
 class SplitType(enum.Enum):
     ANY = "any"
@@ -45,6 +47,8 @@ class ActionData(BaseModel):
 
 class ActionSchema(BaseModel):
     action_id: int
+    action_exchange_id: int | None = None
+    action_exchange: EventExchange | None = None
     created: datetime.datetime
     origin_id: int
     new_id: int | None = None
@@ -55,6 +59,8 @@ class ActionSchema(BaseModel):
 
 class ActionLogSchema(BaseModel):
     action_id: int
+    action_exchange_id: int | None = None
+    action_exchange: EventExchange | None = None
     sync_time: datetime.datetime | None = None
     synced: bool
     retryable: bool = Field(default=True)
