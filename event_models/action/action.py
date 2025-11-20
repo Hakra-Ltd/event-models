@@ -51,7 +51,6 @@ class ActionSchema(BaseModel):
     external_id: int | None = None
     action: ActionStatus
     data: ActionData | None = None
-    exchange_rules: list[str] | None = None
 
 
 class ActionLogSchema(BaseModel):
