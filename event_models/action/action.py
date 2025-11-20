@@ -52,7 +52,7 @@ class ActionSchema(BaseModel):
     created: datetime.datetime
     origin_id: int
     new_id: int | None = None
-    external_id: int | None = None
+    external_mapping: dict[EventExchange, int] | None = None
     action: ActionStatus
     data: ActionData | None = None
 
