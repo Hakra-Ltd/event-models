@@ -11,3 +11,4 @@ class EventExchange(StrEnum):
     GOTICKETS = "Gotickets"
     TICKPICK = "Tickpick"
     MILB = "Milb"
+    MLB = "Mlb"
