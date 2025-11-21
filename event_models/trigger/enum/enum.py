@@ -13,6 +13,7 @@ class ScrapType(StrEnum):
     TICKPICK = "tickpick"
     GOTICKETS = "gotickets"
     MILB = "milb"
+    MLB = "mlb"
 
 
 class FailureReason(StrEnum):
