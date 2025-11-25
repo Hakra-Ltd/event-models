@@ -61,6 +61,8 @@ class ActionSchema(BaseModel):
 
 class ActionLogSchema(BaseModel):
     action_id: int
+    action_exchange_id: str
+    action_exchange: EventExchange
     sync_time: datetime.datetime | None = None
     synced: bool
     retryable: bool = Field(default=True)
