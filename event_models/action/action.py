@@ -8,6 +8,11 @@ from pydantic import BaseModel, Field, model_validator
 from event_models.exchange.exchange import EventExchange
 
 
+class SplitType(enum.Enum):
+    CUSTOM = "CUSTOM"
+    ANY = "ANY"
+
+
 # Same as ListingStatus in arb
 class ActionStatus(enum.Enum):
     ACTIVE = "ACTIVE"
@@ -37,7 +42,7 @@ class ActionData(BaseModel):
     tags: list[str] = Field(description="List of tags")
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
-    split_type: str = Field(description="Split type")
+    split_type: SplitType = Field(description="Split type")
 
 
 class ActionSchema(BaseModel):
@@ -49,8 +54,10 @@ class ActionSchema(BaseModel):
     action: ActionStatus
     data: ActionData | None = None
     action_exchange_id: str | None = None
+    # TODO check Arb listing structure
     exchange_rules: list[str] | None = None
     exchange_mapping: dict[EventExchange, str] = {}
+    external_mapping: dict[EventExchange, str] = {}
 
 
 class ActionLogSchema(BaseModel):
