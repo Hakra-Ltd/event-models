@@ -56,8 +56,7 @@ class ActionSchema(BaseModel):
     action_exchange_id: str | None = None
     # TODO check Arb listing structure
     exchange_rules: list[str] | None = None
-    exchange_mapping: dict[EventExchange, str] = {}
-    external_mapping: dict[EventExchange, str] = {}
+    external_mapping: dict[EventExchange, int] = {}
 
 
 class ActionLogSchema(BaseModel):
