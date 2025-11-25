@@ -5,6 +5,8 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field, model_validator
 
+from event_models.exchange.exchange import EventExchange
+
 
 # Same as ListingStatus in arb
 class ActionStatus(enum.Enum):
@@ -35,6 +37,7 @@ class ActionData(BaseModel):
     tags: list[str] = Field(description="List of tags")
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
+    split_type: str = Field(description="Split type")
 
 
 class ActionSchema(BaseModel):
@@ -45,7 +48,9 @@ class ActionSchema(BaseModel):
     external_id: int | None = None
     action: ActionStatus
     data: ActionData | None = None
+    action_exchange_id: str | None = None
     exchange_rules: list[str] | None = None
+    exchange_mapping: dict[EventExchange, str] = {}
 
 
 class ActionLogSchema(BaseModel):
