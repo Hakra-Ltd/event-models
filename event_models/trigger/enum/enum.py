@@ -15,6 +15,7 @@ class ScrapType(StrEnum):
     MILB = "milb"
     MLB = "mlb"
     GAMETIME = "gametime"
+    PLAYHOUSESQUARE = "playhousesquare"
 
 
 class FailureReason(StrEnum):
