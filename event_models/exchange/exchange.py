@@ -13,3 +13,4 @@ class EventExchange(StrEnum):
     MILB = "Milb"
     MLB = "Mlb"
     GAMETIME = "Gametime"
+    PLAYHOUSESQUARE = "Playhousesquare"
