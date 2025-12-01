@@ -17,6 +17,7 @@ class EventSource(enum.StrEnum):
     MILB = "milb"
     MLB = "mlb"
     PLAYHOUSESQUARE = "playhousesquare"
+    TELECHARGE = 'telecharge'
 
 
 class EventStoreType(enum.StrEnum):
@@ -29,6 +30,7 @@ class EventStoreType(enum.StrEnum):
     MILB = "milb"
     MLB = "mlb"
     PLAYHOUSESQUARE = "playhousesquare"
+    TELECHARGE = "telecharge"
 
 
 class EventAction(enum.StrEnum):
