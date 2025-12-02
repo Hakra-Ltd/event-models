@@ -46,7 +46,7 @@ class ActionData(BaseModel):
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
     split_type: SplitType = Field(description="Split type")
-    price_markup: PriceMarkup
+    price_markup: PriceMarkup = Field(default_factory=lambda: defaultdict(Decimal))
 
 
 class ActionSchema(BaseModel):
