@@ -1,5 +1,6 @@
 import datetime
 import enum
+from collections import defaultdict
 from decimal import Decimal
 from typing import Any, Optional
 
@@ -7,7 +8,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from event_models.exchange.exchange import EventExchange
 
-type PriceMarkup = dict[EventExchange, Decimal]
+type PriceMarkup = defaultdict[EventExchange, Decimal]
 
 
 class SplitType(enum.Enum):
