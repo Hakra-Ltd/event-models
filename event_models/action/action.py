@@ -2,13 +2,16 @@ import datetime
 import enum
 from collections import defaultdict
 from decimal import Decimal
-from typing import Any, Optional
+from typing import Any, Optional, DefaultDict, Annotated
 
 from pydantic import BaseModel, Field, model_validator
 
 from event_models.exchange.exchange import EventExchange
 
-type PriceMarkup = defaultdict[EventExchange, Decimal]
+type PriceMarkup = DefaultDict[
+    EventExchange,
+    Annotated[Decimal, Field(default_factory=Decimal)],
+]
 
 
 class SplitType(enum.Enum):
@@ -46,7 +49,10 @@ class ActionData(BaseModel):
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
     split_type: SplitType = Field(description="Split type")
-    price_markup: PriceMarkup = Field(default_factory=lambda: defaultdict(Decimal))
+    price_markup: PriceMarkup = Field(
+        default_factory=defaultdict,
+        description="Per-exchange price markup",
+    )
 
 
 class ActionSchema(BaseModel):
