@@ -7,6 +7,8 @@ from pydantic import BaseModel, Field, model_validator
 
 from event_models.exchange.exchange import EventExchange
 
+type PriceMarkup = dict[EventExchange, Decimal]
+
 
 class SplitType(enum.Enum):
     CUSTOM = "CUSTOM"
@@ -57,11 +59,7 @@ class ActionSchema(BaseModel):
     # TODO check Arb listing structure
     exchange_rules: list[str] | None = None
     external_mapping: dict[EventExchange, int] = {}
-
-
-class ActionLoadResponseSchema(BaseModel):
-    actions: list[ActionSchema]
-    price_markup: dict[EventExchange, Decimal]
+    price_markup: PriceMarkup
 
 
 class ActionLogSchema(BaseModel):
