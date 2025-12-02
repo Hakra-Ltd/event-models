@@ -45,6 +45,7 @@ class ActionData(BaseModel):
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
     split_type: SplitType = Field(description="Split type")
+    price_markup: PriceMarkup
 
 
 class ActionSchema(BaseModel):
@@ -59,7 +60,6 @@ class ActionSchema(BaseModel):
     # TODO check Arb listing structure
     exchange_rules: list[str] | None = None
     external_mapping: dict[EventExchange, int] = {}
-    price_markup: PriceMarkup
 
 
 class ActionLogSchema(BaseModel):
