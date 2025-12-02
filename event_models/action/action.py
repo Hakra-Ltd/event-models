@@ -59,7 +59,7 @@ class ActionSchema(BaseModel):
     external_mapping: dict[EventExchange, int] = {}
 
 
-class ActionLoadSchema(BaseModel):
+class ActionLoadResponseSchema(BaseModel):
     actions: list[ActionSchema]
     price_markup: dict[EventExchange, Decimal]
 
