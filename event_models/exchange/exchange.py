@@ -15,3 +15,4 @@ class EventExchange(StrEnum):
     GAMETIME = "Gametime"
     PLAYHOUSESQUARE = "Playhousesquare"
     TELECHARGE = "Telecharge"
+    MPV = "mpv"

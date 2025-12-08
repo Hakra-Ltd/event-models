@@ -17,6 +17,7 @@ class ScrapType(StrEnum):
     GAMETIME = "gametime"
     PLAYHOUSESQUARE = "playhousesquare"
     TELECHARGE = "telecharge"
+    MPV = "mpv"
 
 
 class FailureReason(StrEnum):
