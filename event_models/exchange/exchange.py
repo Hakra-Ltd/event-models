@@ -14,3 +14,4 @@ class EventExchange(StrEnum):
     MLB = "Mlb"
     PLAYHOUSESQUARE = "Playhousesquare"
     TELECHARGE = "Telecharge"
+    MPV = "mpv"
