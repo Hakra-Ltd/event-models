@@ -2,13 +2,13 @@ import datetime
 import enum
 from collections import defaultdict
 from decimal import Decimal
-from typing import Any, Optional, DefaultDict, Annotated
+from typing import Annotated, Any, Optional, DefaultDict
 
 from pydantic import BaseModel, Field, model_validator
 
 from event_models.exchange.exchange import EventExchange
 
-type PriceMarkup = DefaultDict[
+type PriceMarkup = DefaultDict[  # type: ignore[valid-type]
     EventExchange,
     Annotated[Decimal, Field(default_factory=Decimal)],
 ]
