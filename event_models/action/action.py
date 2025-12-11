@@ -2,7 +2,7 @@ import datetime
 import enum
 from collections import defaultdict
 from decimal import Decimal
-from typing import Annotated, Any, Optional, DefaultDict
+from typing import Annotated, Any, DefaultDict, Optional
 
 from pydantic import BaseModel, Field, model_validator
 
