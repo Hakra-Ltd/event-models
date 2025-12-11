@@ -1,9 +1,22 @@
 import datetime
 import enum
+from collections import defaultdict
 from decimal import Decimal
-from typing import Any, Optional
+from typing import Annotated, Any, DefaultDict, Optional
 
 from pydantic import BaseModel, Field, model_validator
+
+from event_models.exchange.exchange import EventExchange
+
+type PriceMarkup = DefaultDict[  # type: ignore[valid-type]
+    EventExchange,
+    Annotated[Decimal, Field(default_factory=Decimal)],
+]
+
+
+class SplitType(enum.Enum):
+    CUSTOM = "CUSTOM"
+    ANY = "ANY"
 
 
 # Same as ListingStatus in arb
@@ -35,6 +48,11 @@ class ActionData(BaseModel):
     tags: list[str] = Field(description="List of tags")
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
+    split_type: SplitType = Field(description="Split type")
+    price_markup: PriceMarkup = Field(
+        default_factory=defaultdict,
+        description="Per-exchange price markup",
+    )
 
 
 class ActionSchema(BaseModel):
@@ -45,11 +63,16 @@ class ActionSchema(BaseModel):
     external_id: int | None = None
     action: ActionStatus
     data: ActionData | None = None
+    action_exchange_id: str | None = None
+    # TODO check Arb listing structure
     exchange_rules: list[str] | None = None
+    external_mapping: dict[EventExchange, int] = {}
 
 
 class ActionLogSchema(BaseModel):
     action_id: int
+    action_exchange_id: str
+    action_exchange: EventExchange
     sync_time: datetime.datetime | None = None
     synced: bool
     retryable: bool = Field(default=True)

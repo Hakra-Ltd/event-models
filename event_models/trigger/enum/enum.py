@@ -14,6 +14,7 @@ class ScrapType(StrEnum):
     GOTICKETS = "gotickets"
     MILB = "milb"
     MLB = "mlb"
+    GAMETIME = "gametime"
     PLAYHOUSESQUARE = "playhousesquare"
     TELECHARGE = "telecharge"
     MPV = "mpv"

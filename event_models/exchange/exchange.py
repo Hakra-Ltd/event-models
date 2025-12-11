@@ -12,6 +12,7 @@ class EventExchange(StrEnum):
     TICKPICK = "Tickpick"
     MILB = "Milb"
     MLB = "Mlb"
+    GAMETIME = "Gametime"
     PLAYHOUSESQUARE = "Playhousesquare"
     TELECHARGE = "Telecharge"
     MPV = "mpv"
