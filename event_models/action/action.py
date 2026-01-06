@@ -61,12 +61,32 @@ class ActionSchema(BaseModel):
     origin_id: int
     new_id: int | None = None
     external_id: int | None = None
+    exchange: EventExchange | None = None
     action: ActionStatus
     data: ActionData | None = None
     action_exchange_id: str | None = None
-    # TODO check Arb listing structure
     exchange_rules: list[str] | None = None
     external_mapping: dict[EventExchange, int] = {}
+
+    @model_validator(mode="before")
+    def validate_exchange_and_mapping(cls, values: Any) -> Any:
+        exchange = values.get("exchange")
+        external_mapping = values.get("external_mapping")
+        external_id = values.get("external_id")
+        action = values.get("action")
+
+        # Check if both exchange and external_mapping exist
+        if exchange is not None and external_mapping:
+            raise ValueError("exchange and external_mapping cannot exist together")
+
+        # If exchange exists, validate external_id based on action
+        if exchange is not None:
+            if action == ActionStatus.ACTIVE and external_id is not None:
+                raise ValueError("external_id must be empty when exchange exists and action is ACTIVE")
+            elif action != ActionStatus.ACTIVE and external_id is None:
+                raise ValueError("external_id must be set when exchange exists and action is not ACTIVE")
+
+        return values
 
 
 class ActionLogSchema(BaseModel):
