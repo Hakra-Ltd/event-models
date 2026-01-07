@@ -69,7 +69,7 @@ class ActionSchema(BaseModel):
     exchange: EventExchange | None = None
     action: ActionStatus
     data: ActionData | None = None
-    action_exchange_id: str | None = None
+    action_exchange_id: int | None = None
     exchange_rules: dict[EventExchange, ExchangeRuleType] | None = None
     external_mapping: dict[EventExchange, int] | None = None
 
@@ -96,7 +96,7 @@ class ActionSchema(BaseModel):
 
 class ActionLogSchema(BaseModel):
     action_id: int
-    action_exchange_id: str
+    action_exchange_id: int
     action_exchange: EventExchange
     sync_time: datetime.datetime | None = None
     synced: bool
