@@ -10,9 +10,8 @@ from event_models.exchange.exchange import EventExchange
 
 type PriceMarkup = DefaultDict[  # type: ignore[valid-type]
     EventExchange,
-    Annotated[Decimal, Field(default_factory=Decimal)],
+    Annotated[Decimal, Field(default_factory=Decimal, decimal_places=2)],
 ]
-
 
 class ExchangeRuleType(enum.Enum):
     INCLUDE = "include"
