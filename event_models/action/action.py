@@ -66,7 +66,7 @@ class ActionSchema(BaseModel):
     data: ActionData | None = None
     action_exchange_id: str | None = None
     exchange_rules: list[str] | None = None
-    external_mapping: dict[EventExchange, int] = {}
+    external_mapping: dict[EventExchange, int] | None = None
 
     @model_validator(mode="before")
     def validate_exchange_and_mapping(cls, values: Any) -> Any:
