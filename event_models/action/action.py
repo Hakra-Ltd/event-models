@@ -14,6 +14,11 @@ type PriceMarkup = DefaultDict[  # type: ignore[valid-type]
 ]
 
 
+class ExchangeRuleType(enum.Enum):
+    INCLUDE = "include"
+    EXCLUDE = "exclude"
+
+
 class SplitType(enum.Enum):
     CUSTOM = "CUSTOM"
     ANY = "ANY"
@@ -65,7 +70,7 @@ class ActionSchema(BaseModel):
     action: ActionStatus
     data: ActionData | None = None
     action_exchange_id: str | None = None
-    exchange_rules: list[str] | None = None
+    exchange_rules: dict[EventExchange, ExchangeRuleType] | None = None
     external_mapping: dict[EventExchange, int] | None = None
 
     @model_validator(mode="before")
