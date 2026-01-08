@@ -13,6 +13,7 @@ type PriceMarkup = DefaultDict[  # type: ignore[valid-type]
     Annotated[Decimal, Field(default_factory=Decimal, decimal_places=2)],
 ]
 
+
 class ExchangeRuleType(enum.Enum):
     INCLUDE = "include"
     EXCLUDE = "exclude"
@@ -85,9 +86,9 @@ class ActionSchema(BaseModel):
 
         # If exchange exists, validate external_id based on action
         if exchange is not None:
-            if action == ActionStatus.ACTIVE and external_id is not None:
+            if ActionStatus(action) == ActionStatus.ACTIVE and external_id is not None:
                 raise ValueError("external_id must be empty when exchange exists and action is ACTIVE")
-            elif action != ActionStatus.ACTIVE and external_id is None:
+            elif ActionStatus(action) != ActionStatus.ACTIVE and external_id is None:
                 raise ValueError("external_id must be set when exchange exists and action is not ACTIVE")
 
         return values
