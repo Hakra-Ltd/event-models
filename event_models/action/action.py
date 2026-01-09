@@ -101,7 +101,6 @@ class ActionLogSchema(BaseModel):
     sync_time: datetime.datetime | None = None
     synced: bool
     error: dict[datetime.datetime, str] | None = None
-    error_code: int | None = None
 
     @model_validator(mode="before")
     def check_error(cls: Any, values: Any) -> Any:
