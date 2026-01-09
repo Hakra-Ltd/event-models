@@ -53,7 +53,7 @@ class ActionData(BaseModel):
     tags: list[str] = Field(description="List of tags")
     listing_price: Decimal = Field(description="Listing price")
     original_price: Decimal = Field(description="Original price")
-    split_type: SplitType | None = Field(default=None, description="Split type")
+    split_type: SplitType = Field(description="Split type")
     price_markup: PriceMarkup = Field(
         default_factory=defaultdict,
         description="Per-exchange price markup",
