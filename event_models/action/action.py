@@ -96,7 +96,7 @@ class ActionSchema(BaseModel):
 
 class ActionLogSchema(BaseModel):
     action_id: int
-    action_exchange_id: int
+    action_exchange_id: int | None = None
     action_exchange: EventExchange
     sync_time: datetime.datetime | None = None
     synced: bool
