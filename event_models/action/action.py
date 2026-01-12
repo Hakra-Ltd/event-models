@@ -63,8 +63,8 @@ class ActionData(BaseModel):
 class ActionSchema(BaseModel):
     action_id: int
     created: datetime.datetime
-    origin_id: int
-    new_id: int | None = None
+    # used as external exchange id
+    inventory_id: int
     external_id: int | None = None
     exchange: EventExchange | None = None
     action: ActionStatus
