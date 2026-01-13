@@ -81,7 +81,10 @@ class ActionSchema(BaseModel):
         exchange = values.get("exchange")
         external_mapping = values.get("external_mapping")
         external_id = values.get("external_id")
-        action = values.get("action")
+        action = ActionStatus(values.get("action"))
+
+        if action not in [ActionStatus.ACTIVE, ActionStatus.UPDATED, ActionStatus.REMOVED]:
+            raise ValueError(f"Action {action} is not supported")
 
         # Check if both exchange and external_mapping exist
         if exchange is not None and external_mapping:
@@ -89,9 +92,9 @@ class ActionSchema(BaseModel):
 
         # If exchange exists, validate external_id based on action
         if exchange is not None:
-            if ActionStatus(action) == ActionStatus.ACTIVE and external_id is not None:
+            if action == ActionStatus.ACTIVE and external_id is not None:
                 raise ValueError("external_id must be empty when exchange exists and action is ACTIVE")
-            elif ActionStatus(action) != ActionStatus.ACTIVE and external_id is None:
+            elif action != ActionStatus.ACTIVE and external_id is None:
                 raise ValueError("external_id must be set when exchange exists and action is not ACTIVE")
 
         return values
