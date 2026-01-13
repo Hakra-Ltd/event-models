@@ -63,9 +63,8 @@ class ActionData(BaseModel):
 class ActionSchema(BaseModel):
     action_id: int
     created: datetime.datetime
-    # TODO check if both are necessary
+    # internal listing_id
     origin_id: int | None = None
-    new_id: int | None = None
     # used as external exchange id
     inventory_id: int
     external_id: int | None = None
