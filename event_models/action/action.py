@@ -105,6 +105,7 @@ class ActionLogSchema(BaseModel):
     action_exchange: EventExchange
     sync_time: datetime.datetime | None = None
     synced: bool
+    filter: str | None = None
     error: dict[datetime.datetime, str] | None = None
     error_code: int | None = None
 
