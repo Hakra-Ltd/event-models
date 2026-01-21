@@ -16,3 +16,4 @@ class EventExchange(StrEnum):
     PLAYHOUSESQUARE = "Playhousesquare"
     TELECHARGE = "Telecharge"
     MPV = "mpv"
+    TICKETNETWORK = "TicketNetwork"
