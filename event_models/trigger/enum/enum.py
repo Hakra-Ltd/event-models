@@ -21,7 +21,6 @@ class ScrapType(StrEnum):
     ETIX = "etix"
 
 
-
 class FailureReason(StrEnum):
     ACCESS_DENIED = "access_denied"
     PROXY_ERROR = "proxy_error"
