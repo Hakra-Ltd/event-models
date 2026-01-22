@@ -19,6 +19,7 @@ class EventSource(enum.StrEnum):
     PLAYHOUSESQUARE = "playhousesquare"
     TELECHARGE = "telecharge"
     MPV = "mpv"
+    ETIX = "etix"
 
 
 class EventStoreType(enum.StrEnum):
@@ -33,6 +34,7 @@ class EventStoreType(enum.StrEnum):
     PLAYHOUSESQUARE = "playhousesquare"
     TELECHARGE = "telecharge"
     MPV = "mpv"
+    ETIX = "etix"
 
 
 class EventAction(enum.StrEnum):
