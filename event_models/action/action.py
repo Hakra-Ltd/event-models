@@ -33,6 +33,13 @@ class ActionStatus(enum.Enum):
     DISABLED_SALE = "DISABLED_SALE"
 
 
+class ActionError(enum.StrEnum):
+    MISSING_MAPPING = "MISSING_MAPPING"
+    API_ERROR = "API_ERROR"
+    PROCESS_ERROR = "PROCESS_ERROR"
+    UNKNOWN_ERROR = "UNKNOWN_ERROR"
+
+
 class ActionData(BaseModel):
     source_id: str = Field(description="Source identifier")
     local_datetime: datetime.datetime = Field(description="Local date and time of the event")
@@ -77,7 +84,7 @@ class ActionLogSchema(BaseModel):
     synced: bool
     retryable: bool = Field(default=True)
     error: dict[datetime.datetime, str] | None = None
-    error_code: int | None = None
+    error_code: ActionErrorCode | None = None
 
     @model_validator(mode="before")
     def check_error(cls: Any, values: Any) -> Any:
