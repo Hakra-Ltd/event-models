@@ -17,3 +17,4 @@ class EventExchange(StrEnum):
     TELECHARGE = "Telecharge"
     MPV = "mpv"
     TICKETNETWORK = "TicketNetwork"
+    ETIX = "etix"
