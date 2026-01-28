@@ -81,6 +81,7 @@ class ActionSchema(BaseModel):
     action_exchange_id: int | None = None
     exchange_rules: dict[EventExchange, ExchangeRuleType] | None = None
     external_mapping: dict[EventExchange, int] | None = None
+    dependent_to: int | None = None
 
     @model_validator(mode="before")
     def validate_exchange_and_mapping(cls, values: Any) -> Any:
@@ -114,7 +115,8 @@ class ActionLogSchema(BaseModel):
     synced: bool
     filter: str | None = None
     error: dict[datetime.datetime, str] | None = None
-    error_code: ActionError | None = None
+    error_code: int | None = None
+    dependent_to: int | None = None
 
     @model_validator(mode="before")
     def check_error(cls: Any, values: Any) -> Any:
