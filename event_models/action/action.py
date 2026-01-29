@@ -115,7 +115,7 @@ class ActionLogSchema(BaseModel):
     synced: bool
     filter: str | None = None
     error: dict[datetime.datetime, str] | None = None
-    error_code: int | None = None
+    error_code: ActionError | None = None
     dependent_to: int | None = None
 
     @model_validator(mode="before")
