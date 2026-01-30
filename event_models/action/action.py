@@ -43,6 +43,7 @@ class ActionError(enum.StrEnum):
     API_ERROR = "API_ERROR"
     PROCESS_ERROR = "PROCESS_ERROR"
     UNKNOWN_ERROR = "UNKNOWN_ERROR"
+    DEPENDENT_ERROR = "DEPENDENT_ERROR"
 
 
 class ActionData(BaseModel):
