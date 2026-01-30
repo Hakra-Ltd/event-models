@@ -111,6 +111,7 @@ class ActionLogSchema(BaseModel):
     action_id: int
     action_exchange_id: int | None = None
     action_exchange: EventExchange
+    sync_started: datetime.datetime | None = None
     sync_time: datetime.datetime | None = None
     synced: bool
     filter: str | None = None
